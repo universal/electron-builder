@@ -3,7 +3,7 @@ import { doMergeConfigs } from "app-builder-lib/out/util/config"
 import { Arch } from "builder-util"
 import { createYargs } from "electron-builder/out/builder"
 import { createSelfSignedCert } from "electron-builder/out/cli/create-self-signed-cert"
-import { assertThat } from "../helpers/fileAssert"
+import { assertThat } from "./helpers/fileAssert"
 
 test("cli", async () => {
   // because these methods are internal
