@@ -6,7 +6,6 @@ import { getSignVendorPath } from "app-builder-lib/out/codeSign/windowsCodeSign"
 import { mkdir } from "fs/promises"
 import * as path from "path"
 
-/** @internal */
 export async function createSelfSignedCert(publisher: string) {
   const tmpDir = new TmpDir("create-self-signed-cert")
   const targetDir = process.cwd()
@@ -29,9 +28,13 @@ export async function createSelfSignedCert(publisher: string) {
     const certLocation = "Cert:\\LocalMachine\\TrustedPeople"
     log.info({ file: pfx, certLocation }, `importing. Operation will be succeed only if runned from root. Otherwise import file manually.`)
     await spawn("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", "Import-PfxCertificate", "-FilePath", `"${pfx}"`, "-CertStoreLocation", certLocation])
+    return certLocation
+  } catch (error: any) {
+    log.error({ error }, "Unable to create self-signed certificate")
   } finally {
     await tmpDir.cleanup()
   }
+  return undefined
 }
 
 function quoteString(s: string): string {
