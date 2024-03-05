@@ -55,6 +55,11 @@ jobs:
 
   test-mac:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        testFiles:
+          - macPackagerTest,differentialUpdateTest,winCodeSignTest
+          - masTest,dmgTest,filesTest
     steps:
       - name: Checkout code repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
@@ -68,7 +73,7 @@ jobs:
       - name: Test
         run: pnpm ci:test
         env:
-          TEST_FILES: masTest,dmgTest,filesTest,macPackagerTest,differentialUpdateTest
+          TEST_FILES: ${{ matrix.testFiles }}
           FORCE_COLOR: 1
 
   # Need to separate from other tests because logic is specific to when TOKEN env vars are set
