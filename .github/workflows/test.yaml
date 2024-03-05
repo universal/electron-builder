@@ -74,6 +74,7 @@ jobs:
         run: pnpm ci:test
         env:
           TEST_FILES: ${{ matrix.testFiles }}
+          WIN_CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
           FORCE_COLOR: 1
 
   # Need to separate from other tests because logic is specific to when TOKEN env vars are set
